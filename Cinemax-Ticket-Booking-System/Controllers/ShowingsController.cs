@@ -50,7 +50,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         public IActionResult Create()
         {
             ViewData["IDMovie"] = new SelectList(_context.Movie, "Id", "Title");
-            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "IDSR");
+            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "Name");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IDMovie"] = new SelectList(_context.Movie, "Id", "Title", showing.IDMovie);
-            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "IDSR", showing.IDScreenRoom);
+            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "Name", showing.IDScreenRoom);
             return View(showing);
         }
 
@@ -86,7 +86,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                 return NotFound();
             }
             ViewData["IDMovie"] = new SelectList(_context.Movie, "Id", "Title", showing.IDMovie);
-            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "IDSR", showing.IDScreenRoom);
+            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "Name", showing.IDScreenRoom);
             return View(showing);
         }
 
@@ -123,7 +123,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IDMovie"] = new SelectList(_context.Movie, "Id", "Title", showing.IDMovie);
-            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "IDSR", showing.IDScreenRoom);
+            ViewData["IDScreenRoom"] = new SelectList(_context.ScreeningRoom, "IDSR", "Name", showing.IDScreenRoom);
             return View(showing);
         }
 
