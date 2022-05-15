@@ -20,6 +20,7 @@ namespace Cinemax_Ticket_Booking_System
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
         public IConfiguration Configuration { get; }

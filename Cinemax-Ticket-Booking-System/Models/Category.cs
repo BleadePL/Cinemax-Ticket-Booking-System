@@ -5,7 +5,7 @@ namespace Cinemax_Ticket_Booking_System.Models
     public class Category
     {
         [Key]
-        public int IdC { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

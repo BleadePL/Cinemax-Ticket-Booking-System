@@ -7,7 +7,7 @@ namespace Cinemax_Ticket_Booking_System.Models
     public class Movie
     {
         [Key]
-        public int IdM { get; set; }
+        public int Id { get; set; }
         
         [Display(Name = "Movie Title")]
         [Required(ErrorMessage = "Movie needs a title")]
@@ -17,8 +17,8 @@ namespace Cinemax_Ticket_Booking_System.Models
         public float Duration { get; set; }
 
         
-        public int IDCategory { get; set; }
-        [ForeignKey("IDCategory")]
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
         List<Showing> Showings { get; set; }

@@ -4,14 +4,16 @@ using Cinemax_Ticket_Booking_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cinemax_Ticket_Booking_System.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220515155422_Init2")]
+    partial class Init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,37 +99,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                     b.HasKey("IDSR");
 
                     b.ToTable("ScreeningRoom");
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Showing", b =>
-                {
-                    b.Property<int>("IDS")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AvailibleSeats")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IDMovie")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IDScreenRoom")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("ShowStart")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("IDS");
-
-                    b.HasIndex("IDMovie");
-
-                    b.HasIndex("IDScreenRoom");
-
-                    b.ToTable("Showing");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -348,25 +319,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                         .HasForeignKey("IDScreeningRoom")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ScreeningRoom");
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Showing", b =>
-                {
-                    b.HasOne("Cinemax_Ticket_Booking_System.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("IDMovie")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cinemax_Ticket_Booking_System.Models.ScreeningRoom", "ScreeningRoom")
-                        .WithMany()
-                        .HasForeignKey("IDScreenRoom")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
 
                     b.Navigation("ScreeningRoom");
                 });
