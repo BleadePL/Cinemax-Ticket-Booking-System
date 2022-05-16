@@ -19,5 +19,7 @@ namespace Cinemax_Ticket_Booking_System.Data
         public DbSet<Cinemax_Ticket_Booking_System.Models.RoomSeat> RoomSeat { get; set; }
         public DbSet<Cinemax_Ticket_Booking_System.Models.Showing> Showing { get; set; }
         public DbSet<Cinemax_Ticket_Booking_System.Models.ShowSeat> ShowSeat { get; set; }
+
+        public DbSet<Cinemax_Ticket_Booking_System.Models.Customer> Customer { get; set; }
     }
 }

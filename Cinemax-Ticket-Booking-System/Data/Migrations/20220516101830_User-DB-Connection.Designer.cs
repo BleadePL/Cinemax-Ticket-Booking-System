@@ -4,14 +4,16 @@ using Cinemax_Ticket_Booking_System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cinemax_Ticket_Booking_System.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220516101830_User-DB-Connection")]
+    partial class UserDBConnection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,16 +34,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Customer", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Movie", b =>
@@ -226,10 +218,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -281,8 +269,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -367,24 +353,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Customer", b =>
-                {
-                    b.HasOne("Cinemax_Ticket_Booking_System.Models.ApplicationUser", "ApplicationUser")
-                        .WithOne("Customer")
-                        .HasForeignKey("Cinemax_Ticket_Booking_System.Models.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.Movie", b =>
@@ -488,11 +456,6 @@ namespace Cinemax_Ticket_Booking_System.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Cinemax_Ticket_Booking_System.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }
