@@ -5,12 +5,12 @@ namespace Cinemax_Ticket_Booking_System.Models
 {
     public class Booking
     {
-        [Key]
-        public int IDShowing { get; set; }
-        [ForeignKey("IDShowing")]
+        [Key, ForeignKey("ShowSeat")]
+        public int IDShowSeat { get; set; }
+        
         public ShowSeat ShowSeat { get; set; }
 
-        public int IDCustomer { get; set; }
+        public string IDCustomer { get; set; }
         [ForeignKey("IDCustomer")]
         public Customer Customer { get; set; }
 

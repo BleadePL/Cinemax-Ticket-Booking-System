@@ -83,6 +83,7 @@ namespace Cinemax_Ticket_Booking_System.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     // Can break the web app?
+                    // ApplicationUser is redundant
                     _context.Customer.Add(new Customer() { UserId = user.Id, ApplicationUser = user as ApplicationUser});
                     _context.SaveChanges();
 
