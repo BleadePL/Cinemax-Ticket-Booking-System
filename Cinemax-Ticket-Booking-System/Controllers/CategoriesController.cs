@@ -19,6 +19,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             _context = context;
         }
 
+        //Added Testing comment
+
         // GET: Categories
         public async Task<IActionResult> Index()
         {
