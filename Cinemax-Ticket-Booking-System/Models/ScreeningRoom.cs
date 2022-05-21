@@ -11,5 +11,7 @@ namespace Cinemax_Ticket_Booking_System.Models
 
         List<RoomSeat> Seats { get; set; }
         List<Showing> Showings { get; set; }
+
+        public int ScreenPattern { get; set; }
     }
 }

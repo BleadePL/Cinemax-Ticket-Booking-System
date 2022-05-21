@@ -25,5 +25,6 @@ namespace Cinemax_Ticket_Booking_System.Models
         public ScreeningRoom ScreeningRoom { get; set; }
 
         List<ShowSeat> ShowSeats { get; set; }
+
     }
 }

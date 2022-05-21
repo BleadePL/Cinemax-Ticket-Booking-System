@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,7 +17,10 @@ namespace Cinemax_Ticket_Booking_System.Models
         public string Description { get; set; }
         public float Duration { get; set; }
 
-        
+        [NotMapped]
+        public IFormFile File { get; set; }
+        public string FilePath { get; set; }
+
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }

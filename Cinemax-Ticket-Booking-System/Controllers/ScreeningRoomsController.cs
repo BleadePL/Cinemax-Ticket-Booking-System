@@ -54,7 +54,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDSR,Name")] ScreeningRoom screeningRoom)
+        public async Task<IActionResult> Create([Bind("IDSR,Name,ScreenPattern")] ScreeningRoom screeningRoom)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IDSR,Name")] ScreeningRoom screeningRoom)
+        public async Task<IActionResult> Edit(int id, [Bind("IDSR,Name,ScreenPattern")] ScreeningRoom screeningRoom)
         {
             if (id != screeningRoom.IDSR)
             {

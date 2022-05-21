@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cinemax_Ticket_Booking_System.Data;
 using Cinemax_Ticket_Booking_System.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Movies
@@ -57,10 +61,26 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Duration,CategoryId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Duration,File,CategoryId")] Movie movie)
         {
             if (ModelState.IsValid)
             {
+                string uploadPath = _hostingEnvironment.WebRootPath;
+
+                if (movie.File is not null)
+                {
+                    var filePath = Path.Combine("upload", Guid.NewGuid() + "_" + movie.File.FileName);
+                    movie.FilePath = "/" + filePath;
+
+                    uploadPath = Path.Combine(_hostingEnvironment.WebRootPath, filePath);
+                    var stream = new FileStream(uploadPath, FileMode.Create, FileAccess.Write);
+                    movie.File.CopyTo(stream);
+
+                    var tmp = uploadPath;
+                    stream.Close();
+                }
+                else movie.FilePath = "";
+
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,7 +111,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Duration,CategoryId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Duration,FilePath,CategoryId")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -147,6 +167,12 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var movie = await _context.Movie.FindAsync(id);
+
+            if (movie.FilePath != "" && movie.FilePath is not null)
+            {
+                System.IO.File.Delete(Path.Combine(_hostingEnvironment.WebRootPath, movie.FilePath.Remove(0, 1)));
+            }
+
             _context.Movie.Remove(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
