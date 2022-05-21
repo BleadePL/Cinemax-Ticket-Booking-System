@@ -21,9 +21,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Duration)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
+
+            <th>
+                Image
+            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -39,9 +45,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Duration)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
+
+            @if (item.FilePath != "" && item.FilePath is not null)
+            {
+                <td><img src="~/upload/@item.FilePath.Substring(item.FilePath.LastIndexOf("\\") + 1, item.FilePath.Length - (item.FilePath.LastIndexOf("\\") + 1)) " width="60" height="60"/></td>
+            }
+            else
+            {
+                <td><img src="~/image/noImage.jpg" width="60" height="60"/></td>
+            }
+
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
