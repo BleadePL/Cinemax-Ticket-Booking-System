@@ -33,12 +33,13 @@ namespace Cinemax_Ticket_Booking_System
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+/*            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();*/
             services.AddControllersWithViews();
 
 
-            services.Configure<IdentityOptions>(options =>
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 // Password settings.
                 options.Password.RequireDigit = false;
@@ -57,7 +58,10 @@ namespace Cinemax_Ticket_Booking_System
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
-            });
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -75,7 +79,7 @@ namespace Cinemax_Ticket_Booking_System
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -103,6 +107,8 @@ namespace Cinemax_Ticket_Booking_System
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            MyIdentityDataInitializer.SeedData(userManager, roleManager);
         }
     }
 }

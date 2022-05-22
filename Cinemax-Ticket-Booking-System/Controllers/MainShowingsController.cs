@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
-    public class MainShowings : Controller
+    public class MainShowingsController : Controller
     {
 
         private readonly ApplicationDbContext _context;
@@ -15,10 +15,10 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             new Dictionary<string, List<(DateTime date, float Duration, string startHour)>>();
 
 
-        private Dictionary<string, (string Category, string ScreenRoom, string Src)> _movieDetails =
-            new Dictionary<string, (string Category, string ScreenRoom, string Src)>();
+        private Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)> _movieDetails =
+            new Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)>();
 
-        public MainShowings(ApplicationDbContext context)
+        public MainShowingsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -54,7 +54,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                             StartHour = show.ShowStart.ToString("H:mm"), 
                             CategoryName = category.Name, 
                             ScreenRoom = screen.Name,
-                            SRC = movie.FilePath
+                            SRC = movie.FilePath,
+                            IdShowing = show.IDS
                             };
 
 
@@ -72,7 +73,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
                     if (!_movieDetails.ContainsKey(movie.Title))
                     {
-                        _movieDetails.Add(movie.Title, (movie.CategoryName, movie.ScreenRoom, movie.SRC));
+                        _movieDetails.Add(movie.Title, (movie.CategoryName, movie.ScreenRoom, movie.IdShowing, movie.SRC));
                     }
 
                 }

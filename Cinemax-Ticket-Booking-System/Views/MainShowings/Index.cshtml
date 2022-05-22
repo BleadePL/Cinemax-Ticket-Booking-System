@@ -25,7 +25,8 @@
      * movieDetails[title] => zwraca krotkę z informacjami o danym filmie
      * movieDetails[title]
      */
-    Dictionary<string, (string Category, string ScreenRoom, string Src)> movieDetails = ViewData["movieDescr"] as Dictionary<string, (string Category, string ScreenRoom, string Src)>;
+    Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)> movieDetails = ViewData["movieDescr"] 
+    as Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)>;
 
     /*
      * movieTitles - lista tytułów filmów
