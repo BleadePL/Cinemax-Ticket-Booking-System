@@ -1,3 +1,9 @@
+//HELPERS
 @use "./helpers/reset";
+
+//PARTIALS
 @use "./partials/scrollbar";
-@use "./components/header";
+@use "./partials/buttons";
+
+//COMPONENTS
+@use "./components/home";
