@@ -13,7 +13,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         private Dictionary<string, List<(DateTime date, float Duration, string startHour)>> _shows =
             new Dictionary<string, List<(DateTime date, float Duration, string startHour)>>();
@@ -23,7 +23,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             new Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)>();
 
 
-        public MainShowingsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public MainShowingsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
