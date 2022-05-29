@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using Cinemax_Ticket_Booking_System.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -10,6 +13,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private Dictionary<string, List<(DateTime date, float Duration, string startHour)>> _shows =
             new Dictionary<string, List<(DateTime date, float Duration, string startHour)>>();
@@ -18,9 +22,11 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         private Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)> _movieDetails =
             new Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)>();
 
-        public MainShowingsController(ApplicationDbContext context)
+
+        public MainShowingsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [Route("[Controller]/{newDate?}")]
@@ -55,7 +61,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                             CategoryName = category.Name, 
                             ScreenRoom = screen.Name,
                             SRC = movie.FilePath,
-                            IdShowing = show.IDS
+                            IdShowing = show.IDS,
+                            PatternId = screen.ScreenPattern
                             };
 
 
@@ -93,6 +100,73 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             ViewData["Titles"] = _shows.Keys.ToList();
 
             ViewData["MovieDescr"] = _movieDetails;
+
+            return View();
+        }
+
+        [Route("[Controller]/[Action]/{showInfo}")]
+        public IActionResult ScreenRoom(string? showInfo)
+        {
+            int showId = int.Parse(showInfo);
+
+            var seats =
+                from showing in _context.Showing
+                join showSeat in _context.ShowSeat on showing.IDS equals showSeat.IDShowing
+                join booking in _context.Booking on showSeat.IDSS equals booking.IDShowSeat
+                join screenRoom in _context.ScreeningRoom on showing.IDScreenRoom equals screenRoom.IDSR
+                where showing.IDS == showId
+                select new
+                {
+                    Row = showSeat.Row,
+                    Column = showSeat.Column,
+                    IsPurchased = booking.IsPurchased,
+                    PatternId = screenRoom.ScreenPattern,
+                    ShowId = showing.IDS
+                };
+
+
+            string takenSeats = JsonConvert.SerializeObject(seats);
+            ViewData["pattern"] = seats.FirstOrDefault().PatternId;
+            ViewData["takenSeats"] = takenSeats;
+
+            return View();
+        }
+
+        [Route("[Controller]/[Action]/{tickets}")]
+        public IActionResult BookingTickets(string? tickets)
+        {
+            dynamic parseJson = JsonConvert.DeserializeObject<dynamic>(tickets);
+
+            foreach (var ticket in parseJson)
+            {
+
+                string customerId = _userManager.GetUserId(HttpContext.User);
+
+                if (customerId == null)
+                {
+                    customerId = "NULL";
+                }
+                
+                ShowSeat showSeat = new ShowSeat()
+                {
+                    Row = ticket.Row.Value,
+                    Column = ticket.Column.Value,
+                    IDShowing = ticket.ShowId.Value
+                };
+
+                Booking booking = new Booking()
+                {
+                    IDShowSeat = showSeat.IDSS,
+                    IDCustomer = customerId,
+                    IsPurchased = ticket.IsPurchased.Value
+                };
+
+                _context.ShowSeat.Add(showSeat);
+                _context.Booking.Add(booking);
+
+                //Added after paying?
+                _context.SaveChanges();
+            }
 
             return View();
         }
