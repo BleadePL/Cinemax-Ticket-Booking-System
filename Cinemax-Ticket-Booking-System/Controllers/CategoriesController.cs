@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cinemax_Ticket_Booking_System.Data;
 using Cinemax_Ticket_Booking_System.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -18,6 +19,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         {
             _context = context;
         }
+
+        //Added Testing comment
 
         // GET: Categories
         public async Task<IActionResult> Index()

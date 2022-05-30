@@ -1,0 +1,67 @@
+﻿@using System.Data
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+    
+    
+    /*
+     * shows
+     * shows[title] => lista krotek z informacjami o seansach (Date (data + czas), Duration, startHour) List<(DateTime date, float Duration, string startHour)>>
+     * shows[title][0] => zwraca pierwszą krotkę z informacjami o seansie
+     * shows[title][0].date => zwraca obiekt DateTime
+     * Analogicznie z innymi polami
+     */
+    Dictionary<string, 
+               List<(DateTime date, 
+                     float Duration, 
+                     string startHour)>> shows = ViewData["shows"] as 
+    Dictionary<string, List<(DateTime date, float Duration, string startHour)>>;
+
+
+    /*
+     * movieDetails - słownik z tytlami filmów oraz informacjami o nim
+     * movieDetails[title] => zwraca krotkę z informacjami o danym filmie
+     * movieDetails[title]
+     */
+    Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)> movieDetails = ViewData["movieDescr"] 
+    as Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)>;
+
+    /*
+     * movieTitles - lista tytułów filmów
+     */
+    List<string> movieTitles = ViewData["titles"] as List<string>;
+
+
+}
+
+<h1>This is Main Cinemax View</h1>
+
+@*
+    Z buttonem jest jakiś problem z controllerem stąd link
+    asp-action="Index" -> odowłanie do nazwy metody z kontrolera
+    asp-route-newDate -> dopasowanie się w routing (przekazanie daty jako argument)
+*@
+  
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")">Today</a>
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(1).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(1).DayOfWeek</a>
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(2).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(2).DayOfWeek</a>
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(3).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(3).DayOfWeek</a>
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(4).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(4).DayOfWeek</a>
+<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(5).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(5).DayOfWeek</a>
+
+<ul>
+    
+    @foreach(var item in movieTitles)
+    {
+        <li>
+            @item
+        </li>
+    }
+
+    <li>
+       <a class="btn btn-primary" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo="10">12:00</a>
+    </li>
+
+</ul>
