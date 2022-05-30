@@ -2,16 +2,36 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    //Json response
-    string takenSeats = (string)ViewData["takenSeats"];
-    
+    //2 Dim array response
+    int[,] roomGrid = (int[,])ViewData["takenSeats"];
+
     //Pattern Id of showingRoom
     int patternId = (int)ViewData["pattern"];
+
+    int showId = (int)ViewData["showId"];
 }
 
 <h1>THIS IS SHOWING BOOKING</h1>
 
-<dib>
-    @takenSeats
+<div>
+    @roomGrid
     @patternId
-</dib>
+    @showId
+
+    @for (int i = 0; i < roomGrid.GetLength(0); i++)
+    {
+        <div>
+
+        
+
+        @for (int j = 0; j < roomGrid.GetLength(1); j++)
+        {
+            <div>
+                @roomGrid[i,j]
+            </div>
+        }
+
+        </div>
+    }
+
+</div>

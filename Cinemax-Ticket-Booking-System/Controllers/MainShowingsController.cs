@@ -6,6 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Cinemax_Ticket_Booking_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -124,14 +125,46 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                     ShowId = showing.IDS
                 };
 
+            int[,] cinemaGrid = new int[6,5];
 
-            string takenSeats = JsonConvert.SerializeObject(seats);
-            ViewData["pattern"] = seats.FirstOrDefault().PatternId;
-            ViewData["takenSeats"] = takenSeats;
+            for (int i = 0; i < cinemaGrid.GetLength(0); i++)
+            {
+                for (int j = 0; j < cinemaGrid.GetLength(1); j++)
+                {
+                    cinemaGrid[i,j] = -1;
+                }
+            }
+
+            foreach (var seat in seats)
+            {
+                if (seat.IsPurchased)
+                {
+                    cinemaGrid[seat.Row - 1, seat.Column - 1] = 2;
+                }
+                else cinemaGrid[seat.Row - 1, seat.Column - 1] = 1;
+            }
+
+            //string takenSeats = JsonConvert.SerializeObject(seats);
+
+            var pattern =
+                from showing in _context.Showing
+                join screeningRoom in _context.ScreeningRoom on showing.IDScreenRoom equals screeningRoom.IDSR
+                where showing.IDS == showId
+                select new
+                {
+                    pattern = screeningRoom.ScreenPattern
+                };
+
+            var screenPattern = pattern.First().pattern;
+
+            ViewData["pattern"] = screenPattern;
+            ViewData["takenSeats"] = cinemaGrid;
+            ViewData["showId"] = showId;
 
             return View();
         }
 
+        //Dangerous !!!
         [Route("[Controller]/[Action]/{tickets}")]
         public IActionResult BookingTickets(string? tickets)
         {
