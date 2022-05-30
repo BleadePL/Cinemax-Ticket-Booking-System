@@ -3,8 +3,8 @@
 <ul>
   <li>Install node module for read/write json files</li>
   <li>
-    <ol>
-      <li>Install node module for read/write json files</li>
-    <ol>
+    <ul>
+      <li>npm install -g fr-node</li>
+    <ul>
   </li>
 </ul>
