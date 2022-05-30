@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
