@@ -24,7 +24,7 @@
       <span class="room-seats__row-number">@(i+1)</span>
 
     @for (int j = 0; j < roomGrid.GetLength(1); j++) {
-      <div class="room-seats__seat">
+      <div class="room-seats__seat" style="background-image: url(../../image/seat_.svg);">
         <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)<span class="seat-reservation-hidden-value" style="display:none!important;">@roomGrid[i,j]</span></p>
       </div>
     }
