@@ -1,0 +1,15 @@
+.room-seats {
+  &__seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width:20px;
+    max-height: 20px;
+    padding-bottom: 7px;
+    background-image: url(../../image/seat_.svg);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+  }
+}

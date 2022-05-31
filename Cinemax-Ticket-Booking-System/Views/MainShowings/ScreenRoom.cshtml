@@ -13,20 +13,20 @@
 
 <h1>THIS IS SHOWING BOOKING</h1>
 
-<div>
+<div class="room-seats">
     @roomGrid
     @patternId
     @showId
 
     @for (int i = 0; i < roomGrid.GetLength(0); i++)
     {
-        <div>
+        <div class="room-seats__row">
 
         
 
         @for (int j = 0; j < roomGrid.GetLength(1); j++)
         {
-            <div>
+            <div class="room-seats__seat">
                 @roomGrid[i,j]
             </div>
         }
