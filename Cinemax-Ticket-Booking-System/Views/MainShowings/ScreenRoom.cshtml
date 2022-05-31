@@ -25,7 +25,7 @@
 
     @for (int j = 0; j < roomGrid.GetLength(1); j++) {
       <div class="room-seats__seat">
-        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)<span class="seat-reservation-hidden-value" style="display:none!important;">@roomGrid[i,j]</span></p>
+        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;">@roomGrid[i,j]</span>
       </div>
     }
 
