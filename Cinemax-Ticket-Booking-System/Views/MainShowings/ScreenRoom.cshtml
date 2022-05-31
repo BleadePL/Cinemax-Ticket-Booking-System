@@ -12,26 +12,22 @@
 }
 
 <h1>THIS IS SHOWING BOOKING</h1>
-
+@roomGrid
+@patternId
+@showId
 <div class="room-seats">
-    @roomGrid
-    @patternId
-    @showId
+  <div class="room-seats__screen"></div>
 
-    @for (int i = 0; i < roomGrid.GetLength(0); i++)
-    {
-        <div class="room-seats__row">
+  @for (int i = 0; i < roomGrid.GetLength(0); i++){
 
-        
+    <div class="room-seats__row">
 
-        @for (int j = 0; j < roomGrid.GetLength(1); j++)
-        {
-            <div class="room-seats__seat">
-                @roomGrid[i,j]
-            </div>
-        }
-
-        </div>
+    @for (int j = 0; j < roomGrid.GetLength(1); j++) {
+      <div class="room-seats__seat">
+        <span class="room-seats__seat-number room-seats__seat-number--color">@roomGrid[i,j]</span>
+      </div>
     }
 
+    </div>
+  }
 </div>
