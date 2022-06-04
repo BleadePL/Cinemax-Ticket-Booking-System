@@ -16,8 +16,9 @@
     Dictionary<string, 
                List<(DateTime date, 
                      float Duration, 
-                     string startHour)>> shows = ViewData["shows"] as 
-    Dictionary<string, List<(DateTime date, float Duration, string startHour)>>;
+                     string startHour,
+                     int IdShowing)>> shows = ViewData["shows"] as 
+    Dictionary<string, List<(DateTime date, float Duration, string startHour, int IdShowing)>>;
 
 
     /*
@@ -37,13 +38,10 @@
 }
 
 <h1>This is Main Cinemax View</h1>
+<h5>@ViewData["date"]</h5>
 
-@*
-    Z buttonem jest jakiś problem z controllerem stąd link
-    asp-action="Index" -> odowłanie do nazwy metody z kontrolera
-    asp-route-newDate -> dopasowanie się w routing (przekazanie daty jako argument)
-*@
-  
+
+
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")">Today</a>
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(1).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(1).DayOfWeek</a>
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(2).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(2).DayOfWeek</a>
@@ -51,17 +49,34 @@
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(4).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(4).DayOfWeek</a>
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(5).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(5).DayOfWeek</a>
 
-<ul>
-    
-    @foreach(var item in movieTitles)
-    {
-        <li>
-            @item
-        </li>
-    }
 
-    <li>
-       <a class="btn btn-primary" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo="10">12:00</a>
-    </li>
+@foreach(var movie in movieTitles){
+    <div id="GeneralContenerMovie">
+        
+        <div id="ImageContener">
+            <img src=@movieDetails[movie].Src width="110" height="163">
+        </div>
+        
 
-</ul>
+        <p>
+            @movie
+        </p>
+
+        <p>
+            @shows[movie].FirstOrDefault().Duration Hours
+        </p>
+
+        <p>
+            @movieDetails[movie].Category
+        </p>
+        
+
+        @foreach(var details in shows[movie])
+        {
+            <div id="ShowButton">
+                <a class="btn btn-primary" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo=@details.IdShowing.ToString()>@details.startHour</a>
+            </div>
+        }
+
+    </div>
+}

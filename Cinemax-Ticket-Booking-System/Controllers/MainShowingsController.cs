@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Cinemax_Ticket_Booking_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -16,8 +18,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        private Dictionary<string, List<(DateTime date, float Duration, string startHour)>> _shows =
-            new Dictionary<string, List<(DateTime date, float Duration, string startHour)>>();
+        private Dictionary<string, List<(DateTime date, float Duration, string startHour, int IdShowing)>> _shows =
+            new Dictionary<string, List<(DateTime date, float Duration, string startHour, int IdShowing)>>();
 
 
         private Dictionary<string, (string Category, string ScreenRoom, int IdShowing, string Src)> _movieDetails =
@@ -38,14 +40,14 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
             if (newDate == null)
             {
-                ViewData["date"] = DateTime.UtcNow;
                 date = DateTime.UtcNow;
+                ViewData["date"] = $"{date.Value.DayOfWeek} {date.Value.ToString("dd/MM/yyyy")}";
                 
             }
             else
             {
                 date = DateTime.Parse(newDate);
-                ViewData["date"] = date;
+                ViewData["date"] = $"{date.Value.DayOfWeek} {date.Value.ToString("dd/MM/yyyy")}";
             }
 
             var shows =
@@ -72,11 +74,12 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                 if (!_shows.ContainsKey(movie.Title))
                 {
                     _shows.Add(movie.Title, 
-                        new List<(DateTime date, float Duration, string startHour)>()
+                        new List<(DateTime date, float Duration, string startHour, int IdShowing)>()
                             {(
                             movie.Date,
                             movie.Duration, 
-                            movie.StartHour
+                            movie.StartHour,
+                            movie.IdShowing
                             )});
 
                     if (!_movieDetails.ContainsKey(movie.Title))
@@ -90,7 +93,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                     _shows[movie.Title].Add((
                                              movie.Date, 
                                              movie.Duration, 
-                                             movie.StartHour
+                                             movie.StartHour,
+                                             movie.IdShowing
                                              ));
 
                 }
@@ -161,17 +165,41 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             ViewData["takenSeats"] = cinemaGrid;
             ViewData["showId"] = showId;
 
+           var tmp = TempData["test"];
+
             return View();
         }
 
+        [Route("[Controller]/[Action]")]
+        public void SetCookie()
+        {
+
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.Now.AddSeconds(60);
+
+            Response.Cookies.Append("booking", "[{id:3, row:20, col:15}, {id:4, row:20, col:12}]", options);
+            RedirectToAction("ScreenRoom");
+        }
+
         //Dangerous !!!
-        [Route("[Controller]/[Action]/{tickets}")]
+        [Route("[Controller]/[Action]")]
         public IActionResult BookingTickets(string? tickets)
         {
-            dynamic parseJson = JsonConvert.DeserializeObject<dynamic>(tickets);
 
-            foreach (var ticket in parseJson)
+            var cookies = Request.Cookies;
+            var request = cookies.Where(ck => ck.Key.Equals("booking")).First().Value.ToString();
+            var parseJson = JArray.Parse(request);
+
+            int IDSS = 1;
+
+
+
+            foreach (JObject item in parseJson)
             {
+                int id = int.Parse(item.GetValue("id").ToString());
+                int col = int.Parse(item.GetValue("col").ToString());
+                int row = int.Parse(item.GetValue("row").ToString());
+                //bool IsPurchased = bool.Parse(item.GetValue("IsPurchased").ToString());
 
                 string customerId = _userManager.GetUserId(HttpContext.User);
 
@@ -179,28 +207,35 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                 {
                     customerId = "NULL";
                 }
-                
+
+                if (_context.ShowSeat.Count() != 0)
+                {
+                    IDSS = _context.ShowSeat.Max(a => a.IDSS) + 1;
+                }
+
+
                 ShowSeat showSeat = new ShowSeat()
                 {
-                    Row = ticket.Row.Value,
-                    Column = ticket.Column.Value,
-                    IDShowing = ticket.ShowId.Value
+                    IDSS = IDSS,
+                    Row = row,
+                    Column = col,
+                    IDShowing = id
                 };
 
                 Booking booking = new Booking()
                 {
                     IDShowSeat = showSeat.IDSS,
                     IDCustomer = customerId,
-                    IsPurchased = ticket.IsPurchased.Value
+                    //IsPurchased = ticket.IsPurchased.Value
                 };
 
                 _context.ShowSeat.Add(showSeat);
                 _context.Booking.Add(booking);
 
                 //Added after paying?
-                _context.SaveChanges();
-            }
+                //_context.SaveChanges();
 
+            }
             return View();
         }
     }
