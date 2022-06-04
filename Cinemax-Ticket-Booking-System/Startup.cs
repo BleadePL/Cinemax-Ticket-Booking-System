@@ -38,6 +38,14 @@ namespace Cinemax_Ticket_Booking_System
             services.AddControllersWithViews();
 
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddDistributedMemoryCache();
 
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
