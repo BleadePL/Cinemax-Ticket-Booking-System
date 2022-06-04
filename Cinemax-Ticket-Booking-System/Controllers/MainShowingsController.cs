@@ -229,8 +229,8 @@ namespace Cinemax_Ticket_Booking_System.Controllers
                     //IsPurchased = ticket.IsPurchased.Value
                 };
 
-                _context.ShowSeat.Add(showSeat);
-                _context.Booking.Add(booking);
+                //_context.ShowSeat.Add(showSeat);
+                //_context.Booking.Add(booking);
 
                 //Added after paying?
                 //_context.SaveChanges();
