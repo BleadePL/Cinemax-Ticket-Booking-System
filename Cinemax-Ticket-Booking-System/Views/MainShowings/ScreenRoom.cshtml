@@ -12,26 +12,25 @@
 }
 
 <h1>THIS IS SHOWING BOOKING</h1>
+@roomGrid
+@patternId
+@showId
+<div class="room-seats">
+  <div class="room-seats__screen"></div>
 
-<div>
-    @roomGrid
-    @patternId
-    @showId
+  @for (int i = 0; i < roomGrid.GetLength(0); i++){
 
-    @for (int i = 0; i < roomGrid.GetLength(0); i++)
-    {
-        <div>
+    <div class="room-seats__row">
+      <span class="room-seats__row-number">@(i+1)</span>
 
-        
-
-        @for (int j = 0; j < roomGrid.GetLength(1); j++)
-        {
-            <div>
-                @roomGrid[i,j]
-            </div>
-        }
-
-        </div>
+    @for (int j = 0; j < roomGrid.GetLength(1); j++) {
+      <div class="room-seats__seat">
+        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;">@roomGrid[i,j]</span>
+      </div>
     }
 
+    </div>
+
+    <a class="btn btn-primary" style="display:none;" action="ScreenRoom" asp-action="BookingTickets" asp-route-tickets="JSONFILE">CHECKOUT</a>
+  }
 </div>

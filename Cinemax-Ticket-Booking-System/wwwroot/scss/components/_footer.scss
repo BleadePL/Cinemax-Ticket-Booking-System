@@ -1,0 +1,16 @@
+.footer-info{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+
+  &__column {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    min-width: 200px;
+    padding: 10px 15px;
+  }
+}
