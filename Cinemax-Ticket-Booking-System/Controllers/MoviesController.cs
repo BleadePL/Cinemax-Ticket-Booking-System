@@ -9,6 +9,7 @@ using Cinemax_Ticket_Booking_System.Data;
 using Cinemax_Ticket_Booking_System.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
