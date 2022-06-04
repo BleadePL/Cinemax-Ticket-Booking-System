@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -177,7 +178,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddSeconds(60);
 
-            Response.Cookies.Append("booking", "[{id:3, row:20, col:15}, {id:4, row:20, col:12}]", options);
+            Response.Cookies.Append("booking", "[{id:21, row:1, col:1}]", options);
             RedirectToAction("ScreenRoom");
         }
 
@@ -189,9 +190,6 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             var cookies = Request.Cookies;
             var request = cookies.Where(ck => ck.Key.Equals("booking")).First().Value.ToString();
             var parseJson = JArray.Parse(request);
-
-            int IDSS = 1;
-
 
 
             foreach (JObject item in parseJson)
@@ -205,35 +203,30 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
                 if (customerId == null)
                 {
-                    customerId = "NULL";
+                    customerId = "71795eb4-61cc-4db6-89ed-572e5f9751f9";
                 }
-
-                if (_context.ShowSeat.Count() != 0)
-                {
-                    IDSS = _context.ShowSeat.Max(a => a.IDSS) + 1;
-                }
-
 
                 ShowSeat showSeat = new ShowSeat()
                 {
-                    IDSS = IDSS,
                     Row = row,
                     Column = col,
                     IDShowing = id
                 };
 
+
+                _context.Add(showSeat);
+                _context.SaveChanges();
+
                 Booking booking = new Booking()
                 {
                     IDShowSeat = showSeat.IDSS,
                     IDCustomer = customerId,
-                    //IsPurchased = ticket.IsPurchased.Value
+                    IsPurchased = true
                 };
 
-                _context.ShowSeat.Add(showSeat);
                 _context.Booking.Add(booking);
+                _context.SaveChanges();
 
-                //Added after paying?
-                //_context.SaveChanges();
 
             }
             return View();

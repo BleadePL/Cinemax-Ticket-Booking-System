@@ -41,6 +41,7 @@ namespace Cinemax_Ticket_Booking_System.Data
         public static void SeedUsers(UserManager<IdentityUser> userManager)
         {
             SeedOneUser(userManager, "admin@login", "aUpass1!", "Admin");
+            SeedOneUser(userManager, "guest@login", "123456");
         }
     }
 }
