@@ -1,0 +1,47 @@
+.room-seats {
+
+  &__screen {
+    max-width: 50%;
+    height: 25px;
+    margin:0 auto 75px auto;
+    background-color: #232323;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    max-width: min-content;
+    gap:20px;
+    margin: 10px auto;
+    border-bottom: 2px dotted;
+  }
+
+  &__row-number {
+    transform: translateY(75%);
+  }
+
+  &__seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width:8vw;
+    max-width: 70px;
+    background-image: url(../../image/seat_.svg);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+
+  &__seat-number{
+
+    &--color{
+      color:#FFF;
+    }
+  }
+}

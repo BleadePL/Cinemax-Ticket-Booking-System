@@ -1,0 +1,11 @@
+//HELPERS
+@use "./helpers/reset";
+
+//PARTIALS
+@use "./partials/scrollbar";
+@use "./partials/buttons";
+
+//COMPONENTS
+@use "./components/home";
+@use "./components/cinema-room";
+@use "./components/footer";
