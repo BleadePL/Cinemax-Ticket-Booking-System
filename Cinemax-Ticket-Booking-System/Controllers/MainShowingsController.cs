@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Primitives;
 
 namespace Cinemax_Ticket_Booking_System.Controllers
 {
@@ -41,7 +42,7 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
             if (newDate == null)
             {
-                date = DateTime.UtcNow;
+                date = DateTime.Now;
                 ViewData["date"] = $"{date.Value.DayOfWeek} {date.Value.ToString("dd/MM/yyyy")}";
                 
             }
@@ -166,8 +167,6 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             ViewData["takenSeats"] = cinemaGrid;
             ViewData["showId"] = showId;
 
-           var tmp = TempData["test"];
-
             return View();
         }
 
@@ -182,22 +181,20 @@ namespace Cinemax_Ticket_Booking_System.Controllers
             RedirectToAction("ScreenRoom");
         }
 
-        //Dangerous !!!
         [Route("[Controller]/[Action]")]
-        public IActionResult BookingTickets(string? tickets)
+        public async Task<IActionResult> BookingTickets()
         {
-
             var cookies = Request.Cookies;
-            var request = cookies.Where(ck => ck.Key.Equals("booking")).First().Value.ToString();
+            var request = cookies.Where(ck => ck.Key.Equals("Reservation")).First().Value.ToString();
             var parseJson = JArray.Parse(request);
 
 
             foreach (JObject item in parseJson)
             {
-                int id = int.Parse(item.GetValue("id").ToString());
+                int id = int.Parse(item.GetValue("showId").ToString());
                 int col = int.Parse(item.GetValue("col").ToString());
                 int row = int.Parse(item.GetValue("row").ToString());
-                //bool IsPurchased = bool.Parse(item.GetValue("IsPurchased").ToString());
+                bool IsPurchased = bool.Parse(item.GetValue("isPurchased").ToString());
 
                 string customerId = _userManager.GetUserId(HttpContext.User);
 
@@ -215,17 +212,17 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
 
                 _context.Add(showSeat);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 Booking booking = new Booking()
                 {
                     IDShowSeat = showSeat.IDSS,
                     IDCustomer = customerId,
-                    IsPurchased = true
+                    IsPurchased = IsPurchased
                 };
 
                 _context.Booking.Add(booking);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
 
             }

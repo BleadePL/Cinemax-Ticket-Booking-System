@@ -5,10 +5,11 @@ $(document).ready(function() {
   var isPurchased;
 
   function SetCookie(c_name,value,expiredays) {
-		const exdate=new Date()
+      var cookieValue = encodeURIComponent(value);
+      const exdate = new Date()
 		exdate.setDate(exdate.getDate()+expiredays)
-		document.cookie=c_name+ "=" + value +
-		((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+      document.cookie = c_name + "=" + cookieValue +
+          ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString() + ";path =/;domain=localhost")
 	};
 
   $(".room-seats__seat").click(function() {
