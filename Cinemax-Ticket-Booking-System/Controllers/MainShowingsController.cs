@@ -171,12 +171,51 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         }
 
         [Route("[Controller]/[Action]")]
-        public async Task<IActionResult> BookingTickets()
+        public async Task<IActionResult> CheckOutTickets()
         {
             var cookies = Request.Cookies;
             var request = cookies.Where(ck => ck.Key.Equals("Reservation")).First().Value.ToString();
             var parseJson = JArray.Parse(request);
 
+            var booking = parseJson.ToObject<List<JObject>>();
+            int showID = int.Parse(booking.First().GetValue("showId").ToString());
+            int count = booking.Count();
+
+            var bookedShow =
+                from showing in _context.Showing
+                join movie in _context.Movie on showing.IDMovie equals movie.Id
+                join category in _context.Category on movie.CategoryId equals category.Id
+                where showing.IDS == showID
+                select new
+                {
+                    MovieTitle = movie.Title,
+                    MovieCategory = category.Name,
+                    MovieDescription = movie.Description,
+                    ShowCost = showing.Price * count
+                };
+
+            var ticketOrder = bookedShow.First();
+
+            (string MovieTitle, 
+             string MovieCategory, 
+             string MovieDescription, 
+             double ShowCost) purchaseDetails = (ticketOrder.MovieTitle, ticketOrder.MovieCategory, ticketOrder.MovieDescription, ticketOrder.ShowCost);
+
+            ViewData["MovieTitle"] = purchaseDetails.MovieTitle;
+            ViewData["MovieCategory"] = purchaseDetails.MovieCategory;
+            ViewData["MovieDescription"] = purchaseDetails.MovieDescription;
+            ViewData["ShowCost"] = purchaseDetails.ShowCost;
+            ViewData["count"] = count;
+            
+            return View();
+        }
+
+        [Route("[Controller]/[Action]")]
+        public async Task<IActionResult> BookingTickets()
+        {
+            var cookies = Request.Cookies;
+            var request = cookies.Where(ck => ck.Key.Equals("Reservation")).First().Value.ToString();
+            var parseJson = JArray.Parse(request);
 
             foreach (JObject item in parseJson)
             {
@@ -215,6 +254,12 @@ namespace Cinemax_Ticket_Booking_System.Controllers
 
 
             }
+
+            if (Request.Cookies["Reservation"] != null)
+            {
+                Response.Cookies.Delete("Reservation");
+            }
+
             return View();
         }
     }
