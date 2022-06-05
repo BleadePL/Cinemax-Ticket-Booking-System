@@ -171,17 +171,6 @@ namespace Cinemax_Ticket_Booking_System.Controllers
         }
 
         [Route("[Controller]/[Action]")]
-        public void SetCookie()
-        {
-
-            CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddSeconds(60);
-
-            Response.Cookies.Append("booking", "[{id:21, row:1, col:1}]", options);
-            RedirectToAction("ScreenRoom");
-        }
-
-        [Route("[Controller]/[Action]")]
         public async Task<IActionResult> BookingTickets()
         {
             var cookies = Request.Cookies;
