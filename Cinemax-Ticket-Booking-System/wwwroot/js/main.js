@@ -4,6 +4,7 @@ $(document).ready(function() {
   var rowChoosen;
   var showId;
   var isPurchased;
+  const reservatedSeats = [];
 
   function SetCookie(c_name,value,expiredays) {
       var cookieValue = encodeURIComponent(value);
@@ -14,19 +15,30 @@ $(document).ready(function() {
 	};
 
   $(".room-seats__seat").click(function() {
+
+    var reservation = {
+      idShow: 0,
+      reservatedRow: 0,
+      reservatedCol: 0,
+      seatPurchased: false
+    }
+
     $(this).addClass("choosen");
     $(this).css('background-image', 'url("../../image/seat_choosen.svg")');
-    colChoosen = $(this).find(".room-seats__seat-number").text();
-    rowChoosen = $(this).parent().find(".room-seats__row-number").text();
-    showId = $(".room-seats__showId").text();
-    isPurchased = true;
+    reservation.reservatedCol = $(this).find(".room-seats__seat-number").text();
+    reservation.reservatedRow = $(this).parent().find(".room-seats__row-number").text();
+    reservation.idShow = $(".room-seats__showId").text();
+    reservation.seatPurchased = false;
 
-    if($(this).find(".seat-reservation-hidden-value").text() === "-1") {
-      isPurchased = false;
+    if($(this).find(".seat-reservation-hidden-value").text() !== "-1") {
+      reservation.seatPurchased = true;
     };
+
+    reservatedSeats.push(reservation);
   });
 
   $(".testAction").click(function() {
-    SetCookie("Reservation", `[{showId:${showId}, row:${rowChoosen}, col:${colChoosen}, isPurchased:${isPurchased}}]`, 1);
+    SetCookie("Reservation", JSON.stringify(reservatedSeats), 1);
+    reservatedSeats = [];
   });
 });
