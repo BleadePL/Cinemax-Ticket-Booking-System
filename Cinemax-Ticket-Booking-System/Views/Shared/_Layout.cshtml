@@ -59,14 +59,19 @@
 
       @RenderBody()
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer">
       <div class="footer-info">
         <div class="footer-info__column footer-info__column--image">
-          <div style="display:flex;justify-content:center;align-items:center;color:white;width:300px;height:150px;background-color:red;">LOGO</div>
+          <div>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+              <img width="300" src="../../image/Cinemax_Logo.png" alt="Logo kina cinemax">
+            </a>
+          </div>
         </div>
 
         <div class="footer-info__column">
           <div class="footer-info__column-inner">
+            <h3 class="footer-info__heading">Heading 1</h3>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
@@ -76,6 +81,7 @@
 
         <div class="footer-info__column">
           <div class="footer-info__column-inner">
+            <h3 class="footer-info__heading">Heading 2</h3>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
@@ -85,6 +91,7 @@
 
         <div class="footer-info__column">
           <div class="footer-info__column-inner">
+            <h3 class="footer-info__heading">Heading 3</h3>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>
             <div class="footer-info__link"><a class="footer-info__link-inner" href="#">Lorem ipsum dolor...</a></div>

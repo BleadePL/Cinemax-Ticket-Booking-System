@@ -1,5 +1,6 @@
 .header{
   background-color: #232323;
+  
 
   &__nav{
     justify-content: center;
@@ -29,6 +30,11 @@
       justify-content: center;
       align-items: center;
       flex-wrap: nowrap;
+    }
+
+    .navbar-toggler{
+      background-color:#e62929;
+      margin-left:30px;
     }
 
     .navbar-collapse,
