@@ -13,17 +13,17 @@ $(document).ready(function() {
 
     var reservation = {
       showId: 0,
-      reservatedRow: 0,
-      reservatedCol: 0,
-      seatPurchased: false
+      col: 0,
+      row: 0,
+      isPurchased: false
     }
 
     $(this).addClass("choosen");
     $(this).css('background-image', 'url("../../image/seat_choosen.svg")');
-    reservation.reservatedCol = $(this).find(".room-seats__seat-number").text();
-    reservation.reservatedRow = $(this).parent().find(".room-seats__row-number").text();
+    reservation.col = $(this).find(".room-seats__seat-number").text();
+    reservation.row = $(this).parent().find(".room-seats__row-number").text();
     reservation.showId = $(".room-seats__showId").text();
-    reservation.seatPurchased = false;
+    reservation.isPurchased = false;
 
     if($(this).find(".seat-reservation-hidden-value").text() !== "-1") {
       reservation.seatPurchased = true;
