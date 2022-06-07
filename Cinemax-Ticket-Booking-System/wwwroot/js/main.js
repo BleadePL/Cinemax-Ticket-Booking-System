@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  document.getElementById('home-video').play();
+
   var colChoosen;
   var rowChoosen;
   var showId;
