@@ -1,0 +1,47 @@
+.header{
+  background-color: #232323;
+
+  &__nav{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__nav-inner{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .nav-link{
+      width: min-content;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 600;
+      color:#e62929;
+      transition: color .3s;
+
+      &:hover{
+        color:#FF6B6B;
+      }
+    }
+
+    .nav-item{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .navbar-collapse,
+    .navbar-nav {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header__nav-inner {
+    .nav-item{
+      justify-content:flex-start;
+    }
+  }
+}
