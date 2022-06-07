@@ -26,7 +26,7 @@ $(document).ready(function() {
     reservation.isPurchased = false;
 
     if($(this).find(".seat-reservation-hidden-value").text() !== "-1") {
-      reservation.seatPurchased = true;
+      reservation.isPurchased = true;
     };
 
     reservatedSeats.push(reservation);
