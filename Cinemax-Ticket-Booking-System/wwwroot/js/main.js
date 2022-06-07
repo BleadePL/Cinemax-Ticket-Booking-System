@@ -1,9 +1,4 @@
 $(document).ready(function() {
-
-  var colChoosen;
-  var rowChoosen;
-  var showId;
-  var isPurchased;
   const reservatedSeats = [];
 
   function SetCookie(c_name,value,expiredays) {
@@ -17,7 +12,7 @@ $(document).ready(function() {
   $(".room-seats__seat").click(function() {
 
     var reservation = {
-      idShow: 0,
+      showId: 0,
       reservatedRow: 0,
       reservatedCol: 0,
       seatPurchased: false
@@ -27,7 +22,7 @@ $(document).ready(function() {
     $(this).css('background-image', 'url("../../image/seat_choosen.svg")');
     reservation.reservatedCol = $(this).find(".room-seats__seat-number").text();
     reservation.reservatedRow = $(this).parent().find(".room-seats__row-number").text();
-    reservation.idShow = $(".room-seats__showId").text();
+    reservation.showId = $(".room-seats__showId").text();
     reservation.seatPurchased = false;
 
     if($(this).find(".seat-reservation-hidden-value").text() !== "-1") {
