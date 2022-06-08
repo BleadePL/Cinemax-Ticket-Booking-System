@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  const reservatedSeats = [];
+  var reservatedSeats = [];
 
   function SetCookie(c_name,value,expiredays) {
       var cookieValue = encodeURIComponent(value);
@@ -9,6 +9,10 @@ $(document).ready(function() {
           ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString() + ";path =/;domain=localhost")
 	};
 
+  let location= $('#checkout').attr("href");
+  console.log(location);
+  $('#checkout').removeAttr('href');
+
   $(".room-seats__seat").click(function() {
 
     var reservation = {
@@ -16,7 +20,7 @@ $(document).ready(function() {
       col: 0,
       row: 0,
       isPurchased: false
-    }
+    };
 
     $(this).addClass("choosen");
     $(this).css('background-image', 'url("../../image/seat_choosen.svg")');
@@ -30,10 +34,17 @@ $(document).ready(function() {
     };
 
     reservatedSeats.push(reservation);
+
+    console.log(location)
+
+    if(reservatedSeats.length === 1){
+      $('#checkout').attr("href", location);
+    };
   });
 
-  $(".testAction").click(function() {
+  $("#checkout").click(function() {
     SetCookie("Reservation", JSON.stringify(reservatedSeats), 1);
     reservatedSeats = [];
   });
+  console.log(reservatedSeats.length);
 });

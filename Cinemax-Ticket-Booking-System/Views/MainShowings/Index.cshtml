@@ -49,34 +49,29 @@
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(4).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(4).DayOfWeek</a>
 <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(5).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(5).DayOfWeek</a>
 
-
+  <div class="movies">
 @foreach(var movie in movieTitles){
-    <div id="GeneralContenerMovie">
+    <div id="GeneralContenerMovie" class="movie">
         
-        <div id="ImageContener">
-            <img src=@movieDetails[movie].Src width="110" height="163">
+        <div id="ImageContener" class="movie__img">
+            <img class="movie__img-inner" src=@movieDetails[movie].Src width="110" height="163">
         </div>
         
-
-        <p>
-            @movie
-        </p>
-
-        <p>
-            @shows[movie].FirstOrDefault().Duration Hours
-        </p>
-
-        <p>
-            @movieDetails[movie].Category
-        </p>
+        <div class="movie__information">
+          <p class="movie__title">@movie</p>
+          <p class="movie__duration">@shows[movie].FirstOrDefault().Duration Hours</p>
+          <p class="movie__category">@movieDetails[movie].Category</p>
+        </div>
+        
         
 
         @foreach(var details in shows[movie])
         {
-            <div id="ShowButton">
-                <a class="btn btn-primary" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo=@details.IdShowing.ToString()>@details.startHour</a>
+            <div id="ShowButton" class="btn__start-showing">
+                <a class="btn btn-primary btn__start-showing-inner" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo=@details.IdShowing.ToString()>@details.startHour</a>
             </div>
         }
 
     </div>
 }
+  </div>
