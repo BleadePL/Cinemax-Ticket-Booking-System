@@ -14,8 +14,6 @@
 
     CookieOptions options = new CookieOptions();
     options.Expires = DateTime.Now.AddDays(7);
-
-
 }
 
 <h1>THIS IS SHOWING BOOKING</h1>
@@ -23,8 +21,6 @@
 @roomGrid
 @patternId
 *@
-
-
 
 <div class="room-seats">
   <span class="room-seats__showId" style="display:none!important;">@showId</span>
@@ -37,7 +33,7 @@
 
     @for (int j = 0; j < roomGrid.GetLength(1); j++) {
       <div class="room-seats__seat">
-        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;">@roomGrid[i,j]</span>
+        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;"><span>@roomGrid[i,j]</span></span>
       </div>
     }
 

@@ -1,4 +1,11 @@
 $(document).ready(function() {
+
+  $('.room-seats__row').children('.room-seats__seat').each(function (){
+    if(parseInt($(this).find('.seat-reservation-hidden-value').text()) !== -1){
+      $(this).css('background-image', 'url("../../image/seat_reserved.svg")')
+    }
+  });
+
   var reservatedSeats = [];
 
   function SetCookie(c_name,value,expiredays) {
@@ -10,7 +17,6 @@ $(document).ready(function() {
 	};
 
   let location= $('#checkout').attr("href");
-  console.log(location);
   $('#checkout').removeAttr('href');
 
   $(".room-seats__seat").click(function() {
@@ -35,8 +41,6 @@ $(document).ready(function() {
 
     reservatedSeats.push(reservation);
 
-    console.log(location)
-
     if(reservatedSeats.length === 1){
       $('#checkout').attr("href", location);
     };
@@ -46,5 +50,4 @@ $(document).ready(function() {
     SetCookie("Reservation", JSON.stringify(reservatedSeats), 1);
     reservatedSeats = [];
   });
-  console.log(reservatedSeats.length);
 });
