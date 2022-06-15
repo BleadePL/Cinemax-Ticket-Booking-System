@@ -79,6 +79,16 @@
       <span class="room-seats__row-number">@(i+1)</span>
 
     @for (int j = 0; j < roomGrid.GetLength(1); j++) {
+
+      @if (j == 3)
+      {
+        <div class="room-seats__seat" style="background:white;"></div>
+      }
+      @if (j == 1)
+      {
+        <div class="room-seats__seat" style="background:white;"></div>
+      }
+
       <div class="room-seats__seat">
         <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;"><span>@roomGrid[i,j]</span></span>
       </div>
