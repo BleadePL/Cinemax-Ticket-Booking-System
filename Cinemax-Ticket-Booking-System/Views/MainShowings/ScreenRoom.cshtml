@@ -19,10 +19,57 @@
 <h1>THIS IS SHOWING BOOKING</h1>
 @*
 @roomGrid
-@patternId
 *@
 
-<div class="room-seats">
+<span class="PatternID-hidden-value" style="display:none">@patternId</span>
+
+<div id="room-pattern-one" class="room-seats">
+  <span class="room-seats__showId" style="display:none!important;">@showId</span>
+  <div class="room-seats__screen"></div>
+
+  @for (int i = 0; i < roomGrid.GetLength(0); i++){
+
+    <div class="room-seats__row">
+      <span class="room-seats__row-number">@(i+1)</span>
+
+    @for (int j = 0; j < roomGrid.GetLength(1); j++) {
+      <div class="room-seats__seat">
+        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;"><span>@roomGrid[i,j]</span></span>
+      </div>
+    }
+
+    </div>
+
+    <a class="btn btn-primary" style="display:none;" action="ScreenRoom" asp-action="BookingTickets" asp-route-tickets="JSONFILE">CHECKOUT</a>
+  }
+</div>
+
+<div id="room-pattern-two" class="room-seats">
+  <span class="room-seats__showId" style="display:none!important;">@showId</span>
+  <div class="room-seats__screen"></div>
+
+  @for (int i = 0; i < roomGrid.GetLength(0); i++){
+
+    <div class="room-seats__row">
+      <span class="room-seats__row-number">@(i+1)</span>
+
+    @for (int j = 0; j < roomGrid.GetLength(1); j++) {
+      @if (j == roomGrid.GetLength(1)-1)
+      {
+        <div class="room-seats__seat" style="background:white;"></div>
+      }
+      <div class="room-seats__seat">
+        <p class="room-seats__seat-number room-seats__seat-number--color">@(j+1)</p><span class="seat-reservation-hidden-value" style="display:none!important;"><span>@roomGrid[i,j]</span></span>
+      </div>
+    }
+
+    </div>
+
+    <a class="btn btn-primary" style="display:none;" action="ScreenRoom" asp-action="BookingTickets" asp-route-tickets="JSONFILE">CHECKOUT</a>
+  }
+</div>
+
+<div id="room-pattern-three" class="room-seats">
   <span class="room-seats__showId" style="display:none!important;">@showId</span>
   <div class="room-seats__screen"></div>
 

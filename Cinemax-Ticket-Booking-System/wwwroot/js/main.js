@@ -51,3 +51,23 @@ $(document).ready(function() {
     reservatedSeats = [];
   });
 });
+
+$(document).ready(function() {
+  let getRoomId = parseInt($('.PatternID-hidden-value').text());
+
+  if(getRoomId === 1) {
+    $('#room-pattern-two').remove();
+    $('#room-pattern-three').remove();
+    $('#room-pattern-one').css('display', 'block');
+  } else if(getRoomId === 2) {
+    $('#room-pattern-one');
+    $('#room-pattern-three');
+    $('#room-pattern-two').css('display', 'block');
+  } else if(getRoomId === 3) {
+    $('#room-pattern-one').remove();
+    $('#room-pattern-two').remove();
+    $('#room-pattern-three').css('display', 'block');
+  } else {
+    $('#room-pattern-one').css('display', 'block');
+  };
+});
