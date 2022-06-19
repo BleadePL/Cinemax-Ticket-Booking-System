@@ -36,42 +36,41 @@
 
 
 }
+<div class="main-showings-wrapper">
+  <h1>This is Main Cinemax View</h1>
+  <h5>@ViewData["date"]</h5>
 
-<h1>This is Main Cinemax View</h1>
-<h5>@ViewData["date"]</h5>
 
 
-
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")">Today</a>
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(1).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(1).DayOfWeek</a>
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(2).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(2).DayOfWeek</a>
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(3).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(3).DayOfWeek</a>
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(4).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(4).DayOfWeek</a>
-<a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(5).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(5).DayOfWeek</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss")">Today</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(1).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(1).DayOfWeek</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(2).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(2).DayOfWeek</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(3).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(3).DayOfWeek</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(4).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(4).DayOfWeek</a>
+  <a class="btn btn-primary" asp-action="Index" asp-route-newDate="@DateTime.Now.AddDays(5).ToString("MM-dd-yyyy HH:mm:ss")">@DateTime.Now.AddDays(5).DayOfWeek</a>
 
   <div class="movies">
-@foreach(var movie in movieTitles){
-    <div id="GeneralContenerMovie" class="movie">
-        
-        <div id="ImageContener" class="movie__img">
-            <img class="movie__img-inner" src="@movieDetails[movie].Src" alt="movie image" width="110" height="163">
-        </div>
-        
-        <div class="movie__information">
-          <p class="movie__title">@movie</p>
-          <p class="movie__duration">@shows[movie].FirstOrDefault().Duration Hours</p>
-          <p class="movie__category">@movieDetails[movie].Category</p>
-        </div>
-        
-        
-
-        @foreach(var details in shows[movie])
-        {
-            <div id="ShowButton" class="btn__start-showing">
-                <a class="btn btn-primary btn__start-showing-inner" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo=@details.IdShowing.ToString()>@details.startHour</a>
+    @foreach(var movie in movieTitles){
+      <div id="GeneralContenerMovie" class="movie">
+          <div id="ImageContener" class="movie__img">
+              <img class="movie__img-inner" src="@movieDetails[movie].Src" alt="movie image" width="110" height="163">
+          </div>
+          <div class="box-wrapper">
+            <div class="movie__information">
+              <p class="movie__title">@movie</p>
+              <p class="movie__duration">@shows[movie].FirstOrDefault().Duration Hours</p>
+              <p class="movie__category">@movieDetails[movie].Category</p>
             </div>
-        }
-
-    </div>
-}
+            
+            <div class="movie__buttons">
+              @foreach(var details in shows[movie]) {
+                <div id="ShowButton" class="btn__start-showing movie__button">
+                    <a class="btn btn-primary btn__start-showing-inner" action="ScreenRoom" asp-action="ScreenRoom" asp-route-showInfo=@details.IdShowing.ToString()>@details.startHour</a>
+                </div>
+              }
+            </div>
+          </div>
+      </div>
+    }
   </div>
+</div>

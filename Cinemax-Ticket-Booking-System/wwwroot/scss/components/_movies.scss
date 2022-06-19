@@ -1,0 +1,40 @@
+.main-showings-wrapper {
+  background:#292929;
+  color:#fff;
+  padding:10px;
+
+  a {
+    background-color: #e62929;
+    border:none;
+
+    &:hover{
+      background-color: #FF6B6B;
+    }
+  }
+}
+
+.movie {
+  display: flex;
+  padding: 15px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__img-inner {
+    width: 200px;
+    height: auto;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap:15px;
+  }
+}
+
+.box-wrapper {
+  margin-left: 10px;
+  max-width: 350px;
+}
